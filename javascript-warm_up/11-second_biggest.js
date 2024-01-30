@@ -1,20 +1,12 @@
 #!/usr/bin/node
-const secondBiggest = () => {
-	  const args = process.argv.slice(2);
-	  if (args.length < 2) {
-		      console.log(0);
-		      return;
-		    }
-	  let max = Number.MIN_SAFE_INTEGER;
-	  let secondMax = Number.MIN_SAFE_INTEGER;
-	  for (let i = 0; i < args.length; i++) {
-		      if (Number(args[i]) > max) {
-			            secondMax = max;
-			            max = Number(args[i]);
-			          } else if (Number(args[i]) > secondMax) {
-					        secondMax = Number(args[i]);
-					      }
-		    }
-	  console.log(secondMax);
-};
-secondBiggest();
+const arr = [];
+if ((process.argv.length === 2) || (process.argv.length === 3)) {
+  console.log(0);
+} else {
+  for (let i = 2; i < process.argv.length; i++) {
+    arr.push(parseInt(process.argv[i]));
+  }
+  const max = Math.max(...arr);
+  arr.splice(arr.indexOf(max), 1);
+  console.log(Math.max(...arr));
+}
