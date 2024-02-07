@@ -1,9 +1,11 @@
 #!/usr/bin/node
-const fs = require('fs');
-const file = process.argv.slice(2);
+const url = process.argv.slice(2)[0];
+const request = require('request');
 
-fs.writeFile(file[0], file[1], 'utf8', (err) => {
+request(url, (err, response) => {
   if (err) {
     console.log(err);
+  } else {
+    console.log(`code: ${response.statusCode}`);
   }
 });
