@@ -1,15 +1,24 @@
 #!/usr/bin/node
 const requ = require('request');
-const fs = require('fs');
-const file = process.argv.slice(2);
-requ(file[0], (error, response, body) => {
-	  if (error) {
-		      console.log(error);
-		    } else {
-			        fs.writeFile(file[1], body, 'utf8', (error) => {
-					      if (error) {
-						              console.log(error);
-						            }
-					    });
-			      }
+const apiUrl = process.argv.slice(2)[0];
+
+requ(apiUrl, (error, response, body) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const todos = JSON.parse(body);
+  const taskCompletedByUser = {};
+
+  todos.forEach(todo => {
+    if (todo.completed) {
+      if (taskCompletedByUser[todo.userId] === undefined) {
+        taskCompletedByUser[todo.userId] = 1;
+      } else {
+        taskCompletedByUser[todo.userId] += 1;
+      }
+    }
+  });
+  console.log(taskCompletedByUser);
 });
